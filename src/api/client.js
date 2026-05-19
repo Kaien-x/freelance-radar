@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8008/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://freelance-radar-nine.vercel.app/api',
   // Don't set default Content-Type to allow FormData to set multipart/form-data
 });
 
