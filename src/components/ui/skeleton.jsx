@@ -1,5 +1,3 @@
-import { cn } from '../../lib/utils'
-
 export function Skeleton({ className = '' }) {
   return <div className={`animate-pulse bg-gray-100 rounded-lg ${className}`} />;
 }
