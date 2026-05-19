@@ -5,7 +5,7 @@ import { useAuthStore } from '../../store/authStore';
 import StatsCard from '../../components/shared/StatsCard';
 import { getJobsAPI } from '../../api/jobs.api';
 import { getMyApplicationsAPI } from '../../api/applications.api';
-import { JobCardSkeleton } from '../../components/ui/Skeleton';
+import { JobCardSkeleton } from '../../components/ui/skeleton';
 import JobCard from '../../components/shared/JobCard';
 
 export default function SeekerDashboard() {
