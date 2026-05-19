@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import JobCard from '../../components/shared/JobCard';
 import JobDetailsModal from '../../components/jobs/JobDetailsModal';
 import { getJobsAPI } from '../../api/jobs.api';
-import { JobCardSkeleton } from '../../components/ui/Skeleton';
+import { JobCardSkeleton } from '../../components/ui/skeleton';
 import { Search, Filter, Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function JobFeed() {
