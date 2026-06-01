@@ -1,6 +1,7 @@
 import api from './client';
 
 export const getJobsAPI = (params) => api.get('/jobs', { params });
+export const getCategoriesAPI = () => api.get('/jobs/categories');
 export const getJobAPI = (id) => api.get(`/jobs/${id}`);
 export const createJobAPI = (data) => api.post('/jobs', data);
 export const updateJobAPI = (id, data) => api.put(`/jobs/${id}`, data);

@@ -10,9 +10,9 @@ const navConfig = {
   jobseeker: [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/jobs', icon: Briefcase, label: 'Browse Jobs' },
-    { to: '/applications', icon: FileText, label: 'Applications' },
-    { to: '/proposals', icon: MessageSquare, label: 'Proposals' },
-    { to: '/resume', icon: FileText, label: 'Resume' },
+    // { to: '/applications', icon: FileText, label: 'Applications' },
+    // { to: '/proposals', icon: MessageSquare, label: 'Proposals' },
+    // { to: '/resume', icon: FileText, label: 'Resume' },
     { to: '/profile', icon: User, label: 'Profile' },
   ],
   jobposter: [
@@ -32,75 +32,201 @@ export default function Sidebar({ collapsed, onToggle }) {
   const navigate = useNavigate();
   const nav = navConfig[user?.role] || [];
 
-  const handleLogout = () => { logout(); navigate('/login'); };
+  const handleLogout = () => { logout(); navigate('/auth'); };
 
   return (
-    <aside className={`${collapsed ? 'w-16' : 'w-60'} bg-white border-r border-gray-100 flex flex-col transition-all duration-300 h-screen sticky top-0`}>
-      
-      {/* Logo */}
-      <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-        {!collapsed && (
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
+    <aside
+      className={`
+    ${collapsed ? "w-20" : "w-72"}
+    h-screen sticky top-0
+    bg-white/80 backdrop-blur-xl
+    border-r border-white/20
+    flex flex-col
+    transition-all duration-300
+    shadow-[0_0_40px_rgba(0,0,0,0.03)] relative
+  `}
+    >
+      {/* TOP */}
+      {/* TOP */}
+      <div className="px-4 py-5 flex items-center justify-between">
+
+        {!collapsed ? (
+          <>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-violet-500 blur-xl opacity-40 rounded-full" />
+
+                <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
+                  <Zap className="w-5 h-5 text-white" />
+                </div>
+              </div>
+
+              <div>
+                <h1 className="font-bold text-gray-900 text-[17px] leading-none">
+                  FreelanceRadar
+                </h1>
+              </div>
             </div>
-            <span className="font-bold text-gray-900">FreelanceRadar</span>
+
+            <button
+              onClick={onToggle}
+              className="
+          w-9 h-9 rounded-xl
+          flex items-center justify-center
+          text-gray-400
+          hover:bg-gray-100
+          hover:text-gray-700
+          transition-all
+        "
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+          </>
+        ) : (
+          <div
+            onClick={onToggle}
+            className="mx-auto cursor-pointer relative"
+          >
+            <div className="absolute inset-0 bg-violet-500 blur-xl opacity-40 rounded-full" />
+
+            <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
+              <Zap className="w-5 h-5 text-white" />
+            </div>
           </div>
         )}
-        {collapsed && <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center mx-auto"><Zap className="w-4 h-4 text-white" /></div>}
-        <button onClick={onToggle} className="text-gray-400 hover:text-gray-600 transition-colors ml-auto">
-          {collapsed ? <Menu className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-        </button>
       </div>
 
-      {/* Role badge */}
-      {!collapsed && (
-        <div className="px-4 py-2">
-          <span className={`text-xs px-2 py-1 rounded-full font-medium capitalize
-            ${user?.role === 'admin' ? 'bg-red-50 text-red-600' :
-              user?.role === 'jobposter' ? 'bg-blue-50 text-blue-600' :
-              'bg-violet-50 text-violet-600'}`}>
-            {user?.role}
-          </span>
-        </div>
-      )}
-
-      {/* Nav */}
-      <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
+      {/* NAVIGATION */}
+      <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
         {nav.map(({ to, icon: Icon, label }) => (
-          <NavLink key={to} to={to}
+          <NavLink
+            key={to}
+            to={to}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
-              ${isActive ? 'bg-violet-50 text-violet-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}`
-            }>
-            <Icon className="w-4 h-4 shrink-0" />
-            {!collapsed && label}
+              `
+          group relative flex items-center
+          gap-4 px-4 py-3 rounded-2xl
+          text-sm font-medium
+          transition-all duration-200
+
+          ${isActive
+                ? `
+                bg-gradient-to-r from-violet-600 to-indigo-600
+                text-white
+                shadow-lg shadow-violet-500/20
+              `
+                : `
+                text-gray-500
+                hover:bg-white
+                hover:shadow-md
+                hover:text-gray-900
+              `
+              }
+        `
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div
+                  className={`
+                flex items-center justify-center
+                transition-transform duration-200
+                ${!isActive && "group-hover:scale-110"}
+              `}
+                >
+                  <Icon className="w-5 h-5 shrink-0" />
+                </div>
+
+                {!collapsed && (
+                  <span className="tracking-[0.2px]">
+                    {label}
+                  </span>
+                )}
+
+                {isActive && !collapsed && (
+                  <div className="ml-auto w-2 h-2 rounded-full bg-white/80" />
+                )}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
-      {/* User + Logout */}
-      <div className="p-3 border-t border-gray-100">
+      {/* USER CARD */}
+      <div className="p-4">
         {!collapsed && (
-          <div className="flex items-center gap-3 px-3 py-2 mb-1 rounded-lg bg-gray-50">
-            <div className="w-7 h-7 bg-violet-100 rounded-full flex items-center justify-center text-xs font-bold text-violet-700 shrink-0">
-              {user?.avatar ? (
-                  <img src={`http://localhost:8008${user.avatar}`} alt="Avatar" className="w-full h-full object-cover rounded-full" />
-                ) : (
-                  <span>{user?.name?.[0]}</span>
-                )}
+          <div
+            className="
+          p-3 rounded-2xl
+          bg-gradient-to-br from-gray-50 to-white
+          border border-gray-100
+          shadow-sm
+        "
+          >
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="w-11 h-11 rounded-2xl overflow-hidden bg-violet-100 flex items-center justify-center ring-2 ring-white shadow-sm">
+                  {user?.avatar ? (
+                    <img
+                      src={`${user.avatar}`}
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="font-bold text-violet-700">
+                      {user?.name?.[0]}
+                    </span>
+                  )}
+                </div>
+
+                <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white" />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-900 truncate">
+                  {user?.name}
+                </p>
+
+                <p className="text-xs text-gray-400 truncate">
+                  {user?.email}
+                </p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-gray-900 truncate">{user?.name}</p>
-              <p className="text-xs text-gray-400 truncate">{user?.email}</p>
-            </div>
+
+            <button
+              onClick={handleLogout}
+              className="
+            mt-4 w-full flex items-center justify-center gap-2
+            py-2.5 rounded-xl
+            text-sm font-medium
+            text-gray-500
+            hover:bg-red-50
+            hover:text-red-600
+            transition-all
+          "
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </button>
           </div>
         )}
-        <button onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-sm text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors">
-          <LogOut className="w-4 h-4 shrink-0" />
-          {!collapsed && 'Logout'}
-        </button>
+
+        {collapsed && (
+          <button
+            onClick={handleLogout}
+            className="
+          w-12 h-12 mx-auto
+          rounded-2xl
+          flex items-center justify-center
+          text-gray-500
+          hover:bg-red-50
+          hover:text-red-600
+          transition-all
+        "
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
+        )}
       </div>
     </aside>
   );

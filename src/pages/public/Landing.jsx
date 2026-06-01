@@ -1,74 +1,171 @@
 import { Link } from 'react-router-dom';
-import { Zap, ArrowRight, Briefcase, Users, TrendingUp } from 'lucide-react';
+import {
+  ArrowRight,
+  Briefcase,
+  CheckCircle2,
+  Sparkles,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
 
 export default function Landing() {
   console.log('Landing component rendered');
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-white">
-      <nav className="flex items-center justify-between p-6 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" />
+    <div className="min-h-screen overflow-hidden bg-gradient-to-br from-violet-50 via-white to-purple-50">
+      <nav className="sticky top-0 z-50 border-b border-white/20 bg-white/70 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-purple-600 shadow-lg shadow-violet-200">
+              <Zap className="h-5 w-5 text-white" />
+            </div>
+
+            <Link
+              to="/">
+              <h1 className="text-lg font-bold text-gray-900">
+                FreelanceRadar
+              </h1>
+
+              <p className="text-xs text-gray-500">
+                Built by Manvendra
+              </p>
+            </Link>
           </div>
-          <span className="font-bold text-gray-900">FreelanceRadar</span>
-        </div>
-        <div className="flex gap-4 items-center">
-          <Link to="/login" className="text-gray-600 hover:text-gray-900">Sign in</Link>
-          <Link to="/register" className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg transition-colors">
-            Get Started
-          </Link>
+
+          <div className="flex items-center gap-3">
+            <Link
+              to="/auth"
+              className="rounded-xl px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 hover:text-gray-900"
+            >
+              Sign In
+            </Link>
+
+            <Link
+              to="/auth"
+              className="rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition-all duration-200 hover:scale-[1.02] hover:from-violet-700 hover:to-purple-700 active:scale-[0.98]"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Find Your Next <span className="text-violet-600">Freelance</span> Job
+      <main className="relative mx-auto max-w-7xl px-6 pb-20 pt-24">
+        <div className="absolute left-1/2 top-0 -z-10 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-violet-200/30 blur-3xl" />
+
+        <div className="mx-auto max-w-4xl text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-4 py-2 text-sm font-medium text-violet-700 shadow-sm backdrop-blur">
+            <Sparkles className="h-4 w-4" />
+            Built for Freelancers
+          </div>
+
+          <h1 className="text-5xl font-black leading-tight tracking-tight text-gray-900 md:text-7xl">
+            Find Your Next{" "}
+            <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+              Freelance
+            </span>{" "}
+            Job
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            AI-powered matching that connects talented freelancers with the perfect opportunities
+
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 md:text-xl">
+            Connect with top companies, discover high-quality projects,
+            and let AI match you with opportunities that fit your skills perfectly.
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/register" className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
-              Start Hiring <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link to="/register" className="border border-violet-600 text-violet-600 hover:bg-violet-50 px-6 py-3 rounded-lg font-medium transition-colors">
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Link
+              to="/auth"
+              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-xl shadow-violet-200 transition-all duration-200 hover:scale-[1.03] hover:from-violet-700 hover:to-purple-700 active:scale-[0.98]"
+            >
               Find Work
+              <ArrowRight className="h-5 w-5" />
             </Link>
+
+            {/* <Link
+              to="/register"
+              className="rounded-2xl border border-violet-200 bg-white/80 px-8 py-4 text-lg font-semibold text-violet-700 backdrop-blur transition-all duration-200 hover:border-violet-300 hover:bg-violet-50"
+            >
+              Find Work
+            </Link> */}
+          </div>
+
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-violet-600" />
+              AI Job Matching
+            </div>
+
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-violet-600" />
+              Trusted Freelancers
+            </div>
+
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 text-violet-600" />
+              Secure Payments
+            </div>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="mt-28 grid justify-center gap-8 md:grid-cols-2">
           {[
             {
               icon: Briefcase,
               title: "For Job Seekers",
-              description: "Discover opportunities matched to your skills with AI-powered recommendations",
-              features: ["Smart job matching", "AI proposal generator", "Application tracking"]
+              description:
+                "Discover opportunities perfectly matched to your skills using smart AI recommendations.",
+              features: [
+                "Smart job matching",
+                "AI proposal generator",
+                "Application tracking",
+              ],
             },
-            {
-              icon: Users,
-              title: "For Job Posters",
-              description: "Find the perfect talent for your projects with intelligent matching",
-              features: ["Talent discovery", "Applicant management", "Easy job posting"]
-            },
+            // {
+            //   icon: Users,
+            //   title: "For Job Posters",
+            //   description:
+            //     "Find highly qualified freelancers quickly with intelligent talent discovery tools.",
+            //   features: [
+            //     "Talent discovery",
+            //     "Applicant management",
+            //     "Easy job posting",
+            //   ],
+            // },
             {
               icon: TrendingUp,
               title: "AI-Powered",
-              description: "Advanced algorithms match skills to requirements for perfect fits",
-              features: ["Skill analysis", "Job recommendations", "Proposal assistance"]
-            }
+              description:
+                "Advanced algorithms analyze skills and project requirements for accurate matches.",
+              features: [
+                "Skill analysis",
+                "Job recommendations",
+                "Proposal assistance",
+              ],
+            },
           ].map(({ icon: Icon, title, description, features }, index) => (
-            <div key={index} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-6">
-                <Icon className="w-6 h-6 text-violet-600" />
+            <div
+              key={index}
+              className="group rounded-3xl border border-white/50 bg-white/70 p-8 shadow-lg shadow-gray-100 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-violet-100"
+            >
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-purple-100 transition-transform duration-300 group-hover:scale-110">
+                <Icon className="h-7 w-7 text-violet-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
-              <p className="text-gray-600 mb-6">{description}</p>
-              <ul className="space-y-2">
+
+              <h3 className="text-2xl font-bold text-gray-900">
+                {title}
+              </h3>
+
+              <p className="mt-4 leading-7 text-gray-600">
+                {description}
+              </p>
+
+              <ul className="mt-6 space-y-3">
                 {features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                    <div className="w-1.5 h-1.5 bg-violet-600 rounded-full" />
+                  <li
+                    key={i}
+                    className="flex items-center gap-3 text-sm font-medium text-gray-700"
+                  >
+                    <div className="h-2 w-2 rounded-full bg-violet-600" />
                     {feature}
                   </li>
                 ))}
@@ -77,12 +174,26 @@ export default function Landing() {
           ))}
         </div>
 
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Get Started?</h2>
-          <p className="text-lg text-gray-600 mb-8">Join thousands of freelancers and companies already using FreelanceRadar</p>
-          <Link to="/register" className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-lg font-medium transition-colors text-lg">
-            Create Your Free Account
-          </Link>
+        <div className="relative mt-28 overflow-hidden rounded-[32px] bg-gradient-to-r from-violet-600 to-purple-600 px-8 py-16 text-center shadow-2xl shadow-violet-200">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+
+          <div className="relative z-10">
+            <h2 className="text-4xl font-black text-white">
+              Ready to Get Started?
+            </h2>
+
+            <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-violet-100">
+              Start your freelance journey with FreelanceRadar.
+            </p>
+
+            <Link
+              to="/auth"
+              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-8 py-4 text-lg font-bold text-violet-700 shadow-xl transition-all duration-200 hover:scale-[1.03] hover:bg-violet-50 active:scale-[0.98]"
+            >
+              Create Your Free Account
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </main>
     </div>

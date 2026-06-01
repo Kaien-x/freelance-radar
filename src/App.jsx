@@ -4,8 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import { useAuthStore } from './store/authStore'
 import AppLayout from './components/layout/AppLayout'
 import Landing from './pages/public/Landing'
-import Login from './pages/Login'
-import Register from './pages/public/Register'
+import Auth from './pages/public/Auth'
 import SeekerDashboard from './pages/jobseeker/Dashboard'
 import JobFeed from './pages/jobseeker/JobFeed'
 import Profile from './pages/jobseeker/Profile'
@@ -25,7 +24,7 @@ const queryClient = new QueryClient()
 
 function PrivateRoute({ children, roles }) {
   const { isAuthenticated, user } = useAuthStore();
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAuthenticated) return <Navigate to="/auth" replace />;
   if (roles && !roles.includes(user?.role)) return <Navigate to="/" replace />;
   return children;
 }
@@ -36,8 +35,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/login" element={<Navigate to="/auth" replace />} />
+          <Route path="/register" element={<Navigate to="/auth" replace />} />
 
           <Route path="/dashboard" element={<PrivateRoute roles={['jobseeker']}><AppLayout><SeekerDashboard /></AppLayout></PrivateRoute>} />
           <Route path="/jobs" element={<PrivateRoute roles={['jobseeker']}><AppLayout><JobFeed /></AppLayout></PrivateRoute>} />

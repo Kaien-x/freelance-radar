@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { loginAPI, registerAPI, getMeAPI } from '../api/auth.api';
+import { googleAuthAPI, getMeAPI } from '../api/auth.api';
 
 export const useAuthStore = create(
   persist(
@@ -10,46 +10,23 @@ export const useAuthStore = create(
       isAuthenticated: false,
       isLoading: false,
 
-      login: async (email, password) => {
+      /**
+       * Authenticate with Google.
+       * @param {string} idToken – the credential string from Google Identity Services
+       * @param {string} [role]  – 'jobseeker' | 'jobposter' (used on first sign-up)
+       */
+      loginWithGoogle: async (idToken, role) => {
         set({ isLoading: true });
         try {
-          const res = await loginAPI({ email, password });
-          console.log('Login API response:', res);
-          // Backend returns: { success: true, message, data: { user, token } }
-          // Extract user and token from data property
+          const res = await googleAuthAPI({ idToken, role });
           const { data } = res || {};
           const { user, token } = data || {};
-          if (!token || !user) {
-            throw new Error('Invalid response from server');
-          }
+          if (!token || !user) throw new Error('Invalid response from server');
           localStorage.setItem('token', token);
           set({ user, token, isAuthenticated: true });
           return user;
         } catch (err) {
-          console.error('Login store error:', err);
-          throw err;
-        } finally {
-          set({ isLoading: false });
-        }
-      },
-
-      register: async (data) => {
-        set({ isLoading: true });
-        try {
-          const res = await registerAPI(data);
-          console.log('Register API response:', res);
-          // Backend returns: { success: true, message, data: { user, token } }
-          // Extract user and token from data property
-          const { data: responseData } = res || {};
-          const { user, token } = responseData || {};
-          if (!token || !user) {
-            throw new Error('Invalid response from server');
-          }
-          localStorage.setItem('token', token);
-          set({ user, token, isAuthenticated: true });
-          return user;
-        } catch (err) {
-          console.error('Register store error:', err);
+          console.error('Google login error:', err);
           throw err;
         } finally {
           set({ isLoading: false });
@@ -70,6 +47,13 @@ export const useAuthStore = create(
         }
       },
     }),
-    { name: 'auth', partialize: (s) => ({ token: s.token, user: s.user, isAuthenticated: s.isAuthenticated }) }
+    {
+      name: 'auth',
+      partialize: (s) => ({
+        token: s.token,
+        user: s.user,
+        isAuthenticated: s.isAuthenticated,
+      }),
+    }
   )
-)
+);

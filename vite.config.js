@@ -15,6 +15,16 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    host: true
+    host: true,
+    // During development, proxy /api requests to the backend server.
+    // Set BACKEND_URL to override the default (http://localhost:8008).
+    proxy: {
+      '/api': {
+        target: process.env.BACKEND_URL || 'http://localhost:8008',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
   }
 })
