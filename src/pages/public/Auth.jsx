@@ -139,12 +139,15 @@ export default function Auth() {
 
             {/* Info box */}
             <div className="rounded-xl border border-violet-100 bg-violet-50 p-4">
-              <p className="text-sm text-gray-600 leading-relaxed text-center">
+              <p className="text-sm text-gray-400 leading-relaxed text-center">
                 We use Google to verify your identity. Your password is never stored.
                 Only your name, email, and profile picture are saved.
               </p>
+              <p className="mt-2 text-center text-red-700 text-xs">
+                If Google login doesn't open, check your popup blocker or ad blocker extension.
+              </p>
             </div>
-            
+
           </div>
         </div>
       </div>
