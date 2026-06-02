@@ -27,7 +27,7 @@ export default function Landing() {
               </h1>
 
               <p className="text-xs text-gray-500">
-                Built by Manvendra
+                Built by Kaien
               </p>
             </Link>
           </div>
