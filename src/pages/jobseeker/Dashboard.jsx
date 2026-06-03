@@ -38,6 +38,15 @@ export default function SeekerDashboard() {
 
   const profileComplete = user?.skills?.length > 0 && user?.title && user?.bio;
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    if (hour < 21) return "Good evening";
+
+    return "Welcome back";
+  };
   return (
     <div className="space-y-8">
 
@@ -46,7 +55,7 @@ export default function SeekerDashboard() {
 
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Good morning,{" "}
+            {getGreeting()},{" "}
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               {user?.name?.split(" ")[0]}
             </span>{" "}
