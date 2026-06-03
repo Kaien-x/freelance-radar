@@ -4,7 +4,7 @@ import {
   getProfileAPI, updateProfileAPI, updateSkillsAPI,
   uploadAvatarAPI, uploadResumeAPI
 } from '../../api/user.api';
-import { Camera, Upload, X, Plus, Trash2 } from 'lucide-react';
+import { Camera, Upload, X, Plus, Trash2, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../../store/authStore';
 
@@ -166,7 +166,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto lg:px-6 lg:py-8 space-y-8">
       <div>
         <h1 className="
     text-4xl font-bold tracking-tight
@@ -217,8 +217,13 @@ export default function Profile() {
                     type="email"
                     value={user?.email || ''}
                     disabled
-                    className="w-full h-14 px-4 border border-gray-200 rounded-2xl bg-white/70 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all bg-gray-50"
+                    readOnly
+                    className="w-full readonly h-14 px-4 border border-gray-200 rounded-2xl bg-white/70 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all bg-gray-50"
                   />
+                  <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Email address cannot be changed.</span>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Title</label>
@@ -307,35 +312,38 @@ transition-all
             <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-gray-100 p-7 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-6">Skills</h2>
               <div className="space-y-4">
-                <div className="flex items-center gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2">
                   <input
                     type="text"
                     value={newSkill}
                     onChange={(e) => setNewSkill(e.target.value)}
                     placeholder="Add a skill"
-                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                    className="lg:col-span-5 w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
                   />
+
                   <select
                     value={newSkillLevel}
                     onChange={(e) => setNewSkillLevel(e.target.value)}
-                    className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white"
+                    className="lg:col-span-3 w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 bg-white"
                   >
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
                     <option value="advanced">Advanced</option>
                     <option value="expert">Expert</option>
                   </select>
+
                   <input
                     type="text"
                     value={newSkillYears}
                     onChange={(e) => setNewSkillYears(e.target.value)}
                     placeholder="Years"
-                    className="w-16 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                    className="lg:col-span-2 w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
                   />
+
                   <button
                     type="button"
                     onClick={handleAddSkill}
-                    className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg hover:bg-violet-700"
+                    className="lg:col-span-2 w-full px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg hover:opacity-90 transition"
                   >
                     Add
                   </button>
