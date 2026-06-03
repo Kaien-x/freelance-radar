@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://freelance-radar-nine.vercel.app/uploads/readme/freelanceradar.png" alt="FreelanceRadar Banner" width="100%">
+  <img src="https://freelance-radar-nine.vercel.app/uploads/Readme/freelanceradar.png" alt="FreelanceRadar Banner" width="100%">
 </p>
 
 <h2>✨ Features</h2>
@@ -23,15 +23,15 @@
 <h2>📸 Screenshots</h2>
 
 <p align="center">
-  <img src="https://freelance-radar-nine.vercel.app/uploads/readme/jobs.png" alt="Homepage" width="900">
+  <img src="https://freelance-radar-nine.vercel.app/uploads/Readme/jobs.png" alt="Homepage" width="900">
 </p>
 
 <p align="center">
-  <img src="https://freelance-radar-nine.vercel.app/uploads/readme/profile1.png" alt="Dashboard" width="900">
+  <img src="https://freelance-radar-nine.vercel.app/uploads/Readme/profile1.png" alt="Dashboard" width="900">
 </p>
 
 <p align="center">
-  <img src="https://freelance-radar-nine.vercel.app/uploads/readme/profile2.png" alt="Job Details" width="900">
+  <img src="https://freelance-radar-nine.vercel.app/uploads/Readme/profile2.png" alt="Job Details" width="900">
 </p>
 
 <h2>🛠️ Tech Stack</h2>
