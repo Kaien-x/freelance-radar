@@ -1,9 +1,9 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import {
   LayoutDashboard, Briefcase, FileText, MessageSquare,
   User, LogOut, Zap, PlusCircle, List, Users, Settings,
-  ChevronLeft, Menu
+  ChevronLeft, Menu 
 } from 'lucide-react';
 
 const navConfig = {
@@ -63,7 +63,7 @@ export default function Sidebar({ collapsed, onToggle }) {
 
               <div>
                 <h1 className="font-bold text-gray-900 text-[17px] leading-none">
-                  FreelanceRadar
+              <Link to={`${nav[0]?.to}`}>FreelanceRadar</Link>
                 </h1>
               </div>
             </div>
