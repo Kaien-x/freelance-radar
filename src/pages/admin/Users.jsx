@@ -115,12 +115,7 @@ export default function AdminUsers() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <img
-                        src={
-                          user.avatar
-                            ? `${user.avatar}`
-                            : "https://ui-avatars.com/api/?name=" +
-                            encodeURIComponent(user.name || "User")
-                        }
+                        src={`${user.avatar}`}
                         alt={user.name}
                         className="w-10 h-10 rounded-full object-cover"
                       />
@@ -150,6 +145,9 @@ export default function AdminUsers() {
                         .map((s) => s.skill || s)
                         .join(", ")
                       : "-"}
+                      {
+                        "N/A"
+                      }
                   </td>
 
                   <td className="px-6 py-4">
