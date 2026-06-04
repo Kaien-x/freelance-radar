@@ -64,7 +64,7 @@ export default function Sidebar({
           <div className="relative">
             <div className="absolute inset-0 bg-violet-500 blur-xl opacity-40 rounded-full" />
 
-            <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
+            <div onClick={onToggle} className="hover:cursor-pointer relative w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <Zap className="w-5 h-5 text-white" />
             </div>
           </div>
@@ -102,7 +102,10 @@ export default function Sidebar({
         ) : (
           <div
             onClick={onToggle}
-            className="cursor-pointer"
+            className={`
+              ${collapsed ? 'hidden' : ''}
+              cursor-pointer
+            `}
           >
             <ChevronLeft className="w-5 h-5 text-gray-400 rotate-180" />
           </div>
