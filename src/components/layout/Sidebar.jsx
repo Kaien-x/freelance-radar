@@ -1,18 +1,22 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import {
-  LayoutDashboard, Briefcase, FileText, MessageSquare,
-  User, LogOut, Zap, PlusCircle, List, Users, Settings,
-  ChevronLeft, Menu 
+  LayoutDashboard,
+  Briefcase,
+  User,
+  LogOut,
+  Zap,
+  PlusCircle,
+  List,
+  Users,
+  ChevronLeft,
+  X
 } from 'lucide-react';
 
 const navConfig = {
   jobseeker: [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/jobs', icon: Briefcase, label: 'Browse Jobs' },
-    // { to: '/applications', icon: FileText, label: 'Applications' },
-    // { to: '/proposals', icon: MessageSquare, label: 'Proposals' },
-    // { to: '/resume', icon: FileText, label: 'Resume' },
     { to: '/profile', icon: User, label: 'Profile' },
   ],
   jobposter: [
@@ -27,76 +31,84 @@ const navConfig = {
   ],
 };
 
-export default function Sidebar({ collapsed, onToggle }) {
+export default function Sidebar({
+  collapsed,
+  onToggle,
+  mobile = false,
+  onClose,
+}) {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const nav = navConfig[user?.role] || [];
 
-  const handleLogout = () => { logout(); navigate('/auth'); };
+  const handleLogout = () => {
+    logout();
+    navigate('/auth');
+  };
 
   return (
     <aside
       className={`
-    ${collapsed ? "w-20" : "w-72"}
-    h-screen sticky top-0
-    bg-white/80 backdrop-blur-xl
-    border-r border-white/20
-    flex flex-col
-    transition-all duration-300
-    shadow-[0_0_40px_rgba(0,0,0,0.03)] relative
-  `}
+        ${mobile ? 'w-72' : collapsed ? 'w-20' : 'w-72'}
+        h-screen
+        bg-white/80 backdrop-blur-xl
+        border-r border-white/20
+        flex flex-col
+        transition-all duration-300
+        shadow-[0_0_40px_rgba(0,0,0,0.03)]
+        relative
+      `}
     >
-      {/* TOP */}
-      {/* TOP */}
       <div className="px-4 py-5 flex items-center justify-between">
-
-        {!collapsed ? (
-          <>
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="absolute inset-0 bg-violet-500 blur-xl opacity-40 rounded-full" />
-
-                <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-              </div>
-
-              <div>
-                <h1 className="font-bold text-gray-900 text-[17px] leading-none">
-              <Link to={`${nav[0]?.to}`}>FreelanceRadar</Link>
-                </h1>
-              </div>
-            </div>
-
-            <button
-              onClick={onToggle}
-              className="
-          w-9 h-9 rounded-xl
-          flex items-center justify-center
-          text-gray-400
-          hover:bg-gray-100
-          hover:text-gray-700
-          transition-all
-        "
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-          </>
-        ) : (
-          <div
-            onClick={onToggle}
-            className="mx-auto cursor-pointer relative"
-          >
+        <div className="flex items-center gap-3">
+          <div className="relative">
             <div className="absolute inset-0 bg-violet-500 blur-xl opacity-40 rounded-full" />
 
             <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <Zap className="w-5 h-5 text-white" />
             </div>
           </div>
+
+          {(!collapsed || mobile) && (
+            <div>
+              <h1 className="font-bold text-gray-900 text-[17px] leading-none">
+                <Link to={`${nav[0]?.to}`}>FreelanceRadar</Link>
+              </h1>
+            </div>
+          )}
+        </div>
+
+        {mobile ? (
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-gray-400 hover:bg-gray-100"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        ) : !collapsed ? (
+          <button
+            onClick={onToggle}
+            className="
+              w-9 h-9 rounded-xl
+              flex items-center justify-center
+              text-gray-400
+              hover:bg-gray-100
+              hover:text-gray-700
+              transition-all
+            "
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+        ) : (
+          <div
+            onClick={onToggle}
+            className="cursor-pointer"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-400 rotate-180" />
+          </div>
         )}
       </div>
 
-      {/* NAVIGATION */}
       <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
         {nav.map(({ to, icon: Icon, label }) => (
           <NavLink
@@ -104,46 +116,47 @@ export default function Sidebar({ collapsed, onToggle }) {
             to={to}
             className={({ isActive }) =>
               `
-          group relative flex items-center
-          gap-4 px-4 py-3 rounded-2xl
-          text-sm font-medium
-          transition-all duration-200
+                group relative flex items-center
+                gap-4 px-4 py-3 rounded-2xl
+                text-sm font-medium
+                transition-all duration-200
 
-          ${isActive
-                ? `
-                bg-gradient-to-r from-violet-600 to-indigo-600
-                text-white
-                shadow-lg shadow-violet-500/20
+                ${
+                  isActive
+                    ? `
+                      bg-gradient-to-r from-violet-600 to-indigo-600
+                      text-white
+                      shadow-lg shadow-violet-500/20
+                    `
+                    : `
+                      text-gray-500
+                      hover:bg-white
+                      hover:shadow-md
+                      hover:text-gray-900
+                    `
+                }
               `
-                : `
-                text-gray-500
-                hover:bg-white
-                hover:shadow-md
-                hover:text-gray-900
-              `
-              }
-        `
             }
           >
             {({ isActive }) => (
               <>
                 <div
                   className={`
-                flex items-center justify-center
-                transition-transform duration-200
-                ${!isActive && "group-hover:scale-110"}
-              `}
+                    flex items-center justify-center
+                    transition-transform duration-200
+                    ${!isActive && 'group-hover:scale-110'}
+                  `}
                 >
                   <Icon className="w-5 h-5 shrink-0" />
                 </div>
 
-                {!collapsed && (
+                {(!collapsed || mobile) && (
                   <span className="tracking-[0.2px]">
                     {label}
                   </span>
                 )}
 
-                {isActive && !collapsed && (
+                {isActive && (!collapsed || mobile) && (
                   <div className="ml-auto w-2 h-2 rounded-full bg-white/80" />
                 )}
               </>
@@ -152,23 +165,22 @@ export default function Sidebar({ collapsed, onToggle }) {
         ))}
       </nav>
 
-      {/* USER CARD */}
       <div className="p-4">
-        {!collapsed && (
+        {(!collapsed || mobile) ? (
           <div
             className="
-          p-3 rounded-2xl
-          bg-gradient-to-br from-gray-50 to-white
-          border border-gray-100
-          shadow-sm
-        "
+              p-3 rounded-2xl
+              bg-gradient-to-br from-gray-50 to-white
+              border border-gray-100
+              shadow-sm
+            "
           >
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="w-11 h-11 rounded-2xl overflow-hidden bg-violet-100 flex items-center justify-center ring-2 ring-white shadow-sm">
                   {user?.avatar ? (
                     <img
-                      src={`${user.avatar}`}
+                      src={user.avatar}
                       alt="Avatar"
                       className="w-full h-full object-cover"
                     />
@@ -196,33 +208,31 @@ export default function Sidebar({ collapsed, onToggle }) {
             <button
               onClick={handleLogout}
               className="
-            mt-4 w-full flex items-center justify-center gap-2
-            py-2.5 rounded-xl
-            text-sm font-medium
-            text-gray-500
-            hover:bg-red-50
-            hover:text-red-600
-            transition-all
-          "
+                mt-4 w-full flex items-center justify-center gap-2
+                py-2.5 rounded-xl
+                text-sm font-medium
+                text-gray-500
+                hover:bg-red-50
+                hover:text-red-600
+                transition-all
+              "
             >
               <LogOut className="w-4 h-4" />
               Logout
             </button>
           </div>
-        )}
-
-        {collapsed && (
+        ) : (
           <button
             onClick={handleLogout}
             className="
-          w-12 h-12 mx-auto
-          rounded-2xl
-          flex items-center justify-center
-          text-gray-500
-          hover:bg-red-50
-          hover:text-red-600
-          transition-all
-        "
+              w-12 h-12 mx-auto
+              rounded-2xl
+              flex items-center justify-center
+              text-gray-500
+              hover:bg-red-50
+              hover:text-red-600
+              transition-all
+            "
           >
             <LogOut className="w-5 h-5" />
           </button>
