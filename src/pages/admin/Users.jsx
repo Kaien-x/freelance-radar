@@ -117,7 +117,7 @@ export default function AdminUsers() {
                       <img
                         src={
                           user.avatar
-                            ? `http://43.205.113.12:8008${user.avatar}`
+                            ? `${user.avatar}`
                             : "https://ui-avatars.com/api/?name=" +
                             encodeURIComponent(user.name || "User")
                         }
