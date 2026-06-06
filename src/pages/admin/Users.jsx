@@ -139,15 +139,12 @@ export default function AdminUsers() {
                   </td>
 
                   <td className="px-6 py-4">
-                    {Array.isArray(user.skills)
+                    {Array.isArray(user.skills) && user.skills.length > 0
                       ? user.skills
                         .slice(0, 2)
                         .map((s) => s.skill || s)
                         .join(", ")
-                      : "-"}
-                      {
-                        "N/A"
-                      }
+                      : "N/A"}
                   </td>
 
                   <td className="px-6 py-4">
