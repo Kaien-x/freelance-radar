@@ -64,7 +64,7 @@ export default function Proposals() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Proposals</h1>
           <p className="text-gray-500 text-sm mt-1">AI-generated proposals for your applications</p>
@@ -78,7 +78,7 @@ export default function Proposals() {
         </button>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {['all', 'professional', 'friendly', 'technical', 'creative'].map((t) => (
           <button
             key={t}
@@ -120,14 +120,14 @@ export default function Proposals() {
         <div className="space-y-4">
           {proposals.map((proposal) => (
             <div key={proposal._id} className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-sm transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+                <div className="flex-1 min-w-0">
                   {proposal.job ? (
                     <h3 className="font-semibold text-gray-900 mb-1">{proposal.job.title}</h3>
                   ) : (
                     <h3 className="font-semibold text-gray-900 mb-1">{proposal.jobTitle}</h3>
                   )}
-                  <div className="flex items-center gap-3 text-sm text-gray-500">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500">
                     <span>{format(new Date(proposal.createdAt), 'MMM d, yyyy')}</span>
                     <span className={`px-2 py-0.5 text-xs font-medium rounded capitalize ${toneColors[proposal.tone]}`}>
                       {proposal.tone}
@@ -135,7 +135,7 @@ export default function Proposals() {
                     <span className="text-xs">{proposal.wordCount} words</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={() => handleCopy(proposal.content)}
                     className="p-2 text-gray-400 hover:text-gray-600 transition-colors"

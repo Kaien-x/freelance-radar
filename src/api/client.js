@@ -20,12 +20,17 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res.data,
   (err) => {
+    if (err.response?.status === 403 && err.response?.data?.errorCode === 'EMAIL_NOT_VERIFIED') {
+      if (!window.location.pathname.includes('/verify-email')) {
+        window.location.href = '/verify-email';
+      }
+    }
     if (err.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      // Don't redirect if already on auth page
-      if (window.location.pathname !== '/auth') {
-        window.location.href = '/auth';
+      // Don't redirect if already on auth pages
+      if (!['/', '/login', '/register', '/auth', '/verify-email'].includes(window.location.pathname)) {
+        window.location.href = '/login';
       }
     }
     return Promise.reject(err.response?.data || err);

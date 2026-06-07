@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { cn } from '../../lib/utils'
 
-export function Dialog({ open, onOpenChange, children }) {
+export function Dialog({ open, onOpenChange, children, className }) {
   useEffect(() => {
     if (!open) return
     const onKeyDown = (event) => {
@@ -15,18 +15,20 @@ export function Dialog({ open, onOpenChange, children }) {
 
   if (!open) return null
 
+  const onOverlayMouseDown = (e) => {
+    if (e.target === e.currentTarget) onOpenChange(false)
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-3xl bg-white shadow-2xl">
-        {children}
-      </div>
+    <div onMouseDown={onOverlayMouseDown} className={cn('fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4', className)}>
+      {children}
     </div>
   )
 }
 
 export function DialogContent({ className, children, ...props }) {
   return (
-    <div className={cn('rounded-3xl bg-white p-6', className)} {...props}>
+    <div onMouseDown={(e) => e.stopPropagation()} className={cn('w-full max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-3xl shadow-2xl p-6', className)} {...props}>
       {children}
     </div>
   )
@@ -42,7 +44,7 @@ export function DialogHeader({ className, children, ...props }) {
 
 export function DialogTitle({ className, children, ...props }) {
   return (
-    <h2 className={cn('text-xl font-semibold text-gray-900', className)} {...props}>
+    <h2 className={cn('text-xl font-semibold text-white', className)} {...props}>
       {children}
     </h2>
   )

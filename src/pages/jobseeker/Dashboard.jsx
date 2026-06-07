@@ -52,71 +52,41 @@ export default function SeekerDashboard() {
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             {getGreeting()},{" "}
-            <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="text-[#7c3aed]">
               {user?.name?.split(" ")[0]}
             </span>{" "}
             👋
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-sm text-gray-400 mt-2">
             Here’s your freelance activity overview.
           </p>
         </div>
-
       </div>
 
       {/* PROFILE ALERT */}
       {!profileComplete && (
-        <div className="
-      relative overflow-hidden
-      rounded-3xl
-      border border-amber-200/60
-      bg-gradient-to-r from-amber-50 to-orange-50
-      p-5
-      flex flex-col md:flex-row md:items-center gap-4
-      shadow-sm
-    ">
-
-          <div className="
-        absolute top-0 right-0
-        w-40 h-40
-        bg-amber-200/20
-        blur-3xl rounded-full
-      " />
-
-          <div className="
-        w-12 h-12 rounded-2xl
-        bg-amber-100
-        flex items-center justify-center
-        shrink-0
-      ">
-            <AlertCircle className="w-6 h-6 text-amber-600" />
+        <div className="relative overflow-hidden rounded-2xl border border-[#2d1f4e] border-l-4 border-l-[#7c3aed] bg-[#1e1040] p-5 flex flex-col md:flex-row md:items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-orange-950/50 flex items-center justify-center shrink-0">
+            <AlertCircle className="w-6 h-6 text-orange-400" />
           </div>
 
           <div className="flex-1 relative">
-            <p className="font-semibold text-amber-900 text-lg">
+            <p className="font-semibold text-white text-lg">
               Complete your profile to get better matches
             </p>
 
-            <p className="text-sm text-amber-700 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               Add your bio, skills, and title to improve job matching.
             </p>
           </div>
 
           <Link
             to="/profile"
-            className="
-          relative
-          px-5 py-3 rounded-2xl
-          bg-gradient-to-r from-amber-500 to-orange-500
-          text-white text-sm font-semibold
-          hover:shadow-lg hover:shadow-amber-500/20
-          transition-all
-        "
+            className="relative px-5 py-3 rounded-full bg-orange-500 text-white text-sm font-semibold hover:bg-orange-600 transition-all shrink-0"
           >
             Complete Profile
           </Link>
@@ -124,14 +94,14 @@ export default function SeekerDashboard() {
       )}
 
       {/* STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
         <StatsCard
           label="Skill Match Jobs"
           to="/jobs"
           value={totalMatch}
           icon={Briefcase}
           color="violet"
+          dark
         />
         {console.log(user)}
         <StatsCard
@@ -140,49 +110,38 @@ export default function SeekerDashboard() {
           value={user?.skills?.length || 0}
           icon={TrendingUp}
           color="green"
+          dark
         />
       </div>
 
       {/* JOBS */}
       <div>
-
         <div className="flex items-center justify-between mb-5">
-
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-white">
               Recommended Jobs
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               AI-curated opportunities based on your profile
             </p>
           </div>
 
           <Link
             to="/jobs"
-            className="
-          group flex items-center gap-2
-          text-sm font-semibold text-violet-600
-          hover:text-violet-700
-          transition-all
-        "
+            className="group flex items-center gap-2 text-sm font-semibold text-[#a78bfa] hover:text-[#7c3aed] transition-all"
           >
             View all
-
-            <ArrowRight className="
-          w-4 h-4
-          transition-transform
-          group-hover:translate-x-1
-        " />
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {jobs?.length > 0 ? (
             loading ? (
               Array(jobs.length)
                 .fill(0)
-                .map((_, i) => <JobCardSkeleton key={i} />)
+                .map((_, i) => <JobCardSkeleton key={i} dark />)
             ) : (
               jobs.map((job) => (
                 <JobCard
@@ -197,25 +156,17 @@ export default function SeekerDashboard() {
               ))
             )
           ) : (
-            <div className="
-          col-span-2
-          rounded-3xl
-          border border-dashed border-gray-200
-          bg-white/70
-          p-14
-          text-center
-        ">
-              <p className="text-gray-500 text-lg">
+            <div className="col-span-full rounded-2xl border border-dashed border-[#2d1f4e] bg-[#1a0f2e] p-10 md:p-14 text-center">
+              <p className="text-gray-400 text-lg">
                 No matching jobs found.
               </p>
 
-              <p className="text-sm text-gray-400 mt-2">
+              <p className="text-sm text-gray-500 mt-2">
                 Update your skills or preferences to improve recommendations.
               </p>
             </div>
           )}
         </div>
-
       </div>
       <JobDetailsModal job={selectedJob} open={isModalOpen} onOpenChange={setIsModalOpen} />
     </div>

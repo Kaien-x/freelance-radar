@@ -44,12 +44,12 @@ export default function Applications() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Applications</h1>
           <p className="text-gray-500 text-sm mt-1">Track your job applications</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {['all', 'pending', 'viewed', 'shortlisted'].map((s) => (
             <button
               key={s}
@@ -86,10 +86,10 @@ export default function Applications() {
         <div className="space-y-4">
           {applications.map((app) => (
             <div key={app._id} className="bg-white rounded-xl border border-gray-100 p-6 hover:shadow-sm transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+                <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900 mb-1">{app.job?.title}</h3>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500">
                     <span className="flex items-center gap-1">
                       <FileText className="w-4 h-4" />
                       {app.job?.poster?.company?.name || app.job?.poster?.name}
