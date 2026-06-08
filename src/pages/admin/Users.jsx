@@ -28,8 +28,6 @@ export default function AdminUsers() {
 
       const response = await getAllUsers();
 
-      console.log("Users API Response:", response.data);
-
       setUsers(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("Failed to fetch users:", error);

@@ -24,7 +24,6 @@ export default function Landing() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  console.log('Landing component rendered');
   return (
     <div className="min-h-screen overflow-hidden bg-gradient-to-br from-[#0f0a1e] to-[#1a0533] text-white">
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />

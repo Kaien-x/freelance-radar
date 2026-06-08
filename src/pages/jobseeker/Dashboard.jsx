@@ -103,7 +103,6 @@ export default function SeekerDashboard() {
           color="violet"
           dark
         />
-        {console.log(user)}
         <StatsCard
           label="Skills Added"
           to="/profile"
@@ -149,9 +148,6 @@ export default function SeekerDashboard() {
                   job={job}
                   showMatchScore
                   onSelect={handleJobSelect}
-                //onGenerateProposal={(j) =>
-                //console.log("generate for", j._id)
-                //}
                 />
               ))
             )

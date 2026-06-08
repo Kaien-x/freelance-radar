@@ -11,14 +11,11 @@ export default function Dashboard() {
   const { user, isAuthenticated, refreshUser, initializeAuth } = useAuthStore()
   
   useEffect(() => {
-    console.log('Dashboard - Auth state:', { isAuthenticated, user })
     
     // Initialize auth state on component mount
     const authState = initializeAuth()
-    console.log('Initialized auth state:', authState)
     
     if (isAuthenticated && !user) {
-      console.log('User is authenticated but no user data, refreshing...')
       refreshUser()
     }
   }, [isAuthenticated, user, refreshUser, initializeAuth])
