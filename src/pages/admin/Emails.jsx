@@ -29,9 +29,8 @@ function StatusBadge({ status }) {
   const isSent = status === 'sent';
   return (
     <span
-      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${
-        isSent ? 'bg-[#052e16] text-[#4ade80]' : 'bg-red-950/50 text-red-400'
-      }`}
+      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${isSent ? 'bg-[#052e16] text-[#4ade80]' : 'bg-red-950/50 text-red-400'
+        }`}
     >
       {isSent ? <CheckCircle size={14} /> : <XCircle size={14} />}
       {isSent ? 'Sent' : 'Failed'}
@@ -81,13 +80,16 @@ function EmailDetailModal({ email, onClose }) {
             <div>
               <p className="text-xs uppercase tracking-wider text-gray-400 mb-1">Sent At</p>
               <p className="text-sm text-gray-200">
-                {new Date(email.sentAt).toLocaleString('en-GB', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+                {new Date(email.sentAt)
+                  .toLocaleString('en-GB', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true,
+                  })
+                  .replace(/\b(am|pm)\b/i, match => match.toUpperCase())}
               </p>
             </div>
           </div>
@@ -209,11 +211,10 @@ export default function AdminEmails() {
           <button
             key={label}
             onClick={() => handleFilterChange(value)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              statusFilter === value
-                ? 'bg-[#7c3aed] text-white'
-                : 'bg-[#1a0f2e] border border-[#2d1f4e] text-gray-400 hover:text-white hover:border-[#7c3aed]/50'
-            }`}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${statusFilter === value
+              ? 'bg-[#7c3aed] text-white'
+              : 'bg-[#1a0f2e] border border-[#2d1f4e] text-gray-400 hover:text-white hover:border-[#7c3aed]/50'
+              }`}
           >
             {label}
           </button>
@@ -260,13 +261,16 @@ export default function AdminEmails() {
                   <StatusBadge status={log.status} />
                 </td>
                 <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-200">
-                  {new Date(log.sentAt).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {new Date(log.sentAt)
+                    .toLocaleString('en-GB', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: true,
+                    })
+                    .replace(/\b(am|pm)\b/i, match => match.toUpperCase())}
                 </td>
               </tr>
             ))

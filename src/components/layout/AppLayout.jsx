@@ -67,7 +67,7 @@ export default function AppLayout({ children }) {
       </div>
 
       <main className="flex-1 overflow-auto w-full min-w-0">
-        <div className={`max-w-6xl mx-auto px-4 md:px-8 min-w-0 ${
+        <div className={`max-w-7xl mx-auto px-4 md:px-8 min-w-0 ${
           isDarkLayout ? 'pt-16 md:pt-6 pb-6' : 'p-4 md:p-6 pt-20 md:pt-6'
         }`}>
           {children}

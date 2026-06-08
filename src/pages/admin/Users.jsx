@@ -134,11 +134,10 @@ export default function AdminUsers() {
 
                 <td className="px-4 md:px-6 py-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      user.isActive
+                    className={`px-3 py-1 rounded-full text-sm ${user.isActive
                         ? "bg-[#052e16] text-[#4ade80]"
                         : "bg-red-950/50 text-red-400"
-                    }`}
+                      }`}
                   >
                     {user.isActive ? "Active" : "Inactive"}
                   </span>
@@ -146,11 +145,16 @@ export default function AdminUsers() {
 
                 <td className="px-4 md:px-6 py-4 text-sm text-gray-200">
                   {user.createdAt
-                    ? new Date(user.createdAt).toLocaleDateString("en-GB", {
+                    ? new Date(user.createdAt)
+                      .toLocaleString("en-GB", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
                       })
+                      .replace(/\b(am|pm)\b/i, (match) => match.toUpperCase())
                     : "-"}
                 </td>
 
