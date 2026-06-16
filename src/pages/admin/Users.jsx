@@ -106,11 +106,17 @@ export default function AdminUsers() {
               >
                 <td className="px-4 md:px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={`${user.avatar}`}
-                      alt={user.name}
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-[#2d1f4e]"
-                    />
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="w-10 h-10 rounded-full object-cover ring-2 ring-[#2d1f4e]"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-[#2d1f4e] ring-2 ring-[#2d1f4e] flex items-center justify-center shrink-0">
+                        <span className="text-sm font-bold text-violet-300">{user.name?.[0]}</span>
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold text-sm text-gray-200">{user.name}</p>
                       <p className="text-sm text-gray-400">{user.email}</p>

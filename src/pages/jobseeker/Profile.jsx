@@ -183,16 +183,7 @@ export default function Profile() {
           Manage your professional identity and freelancer settings.
         </p>
       </div>
-      {isLoading ? (
-        <div className="space-y-6">
-          <div className={cardClass}>
-            <div className="animate-pulse">
-              <div className="h-4 w-4 bg-[#2d1f4e] rounded-full"></div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-7 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-7 items-start">
           {/* Left Column - Personal Info and Skills */}
           <div className="lg:col-span-2 space-y-6">
             {/* Personal Info Section */}
@@ -461,7 +452,6 @@ export default function Profile() {
             )} */}
           </div>
         </div>
-      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { 
+import { formatDistanceToNow } from 'date-fns';
+import {
   ArrowRight,
   Briefcase,
   CheckCircle2,
@@ -10,18 +11,73 @@ import {
   Zap,
 } from "lucide-react";
 import WaitlistModal from '../../components/waitlist/WaitlistModal';
+import api from '../../api/client';
+
+const SUBREDDIT_COLORS = [
+  'bg-green-500/20 text-green-400 border-green-500/20',
+  'bg-orange-500/20 text-orange-400 border-orange-500/20',
+  'bg-blue-500/20 text-blue-400 border-blue-500/20',
+  'bg-pink-500/20 text-pink-400 border-pink-500/20',
+  'bg-yellow-500/20 text-yellow-400 border-yellow-500/20',
+];
+
+function formatBudget(job) {
+  const b = job.budget;
+  if (!b) return null;
+  const min = b.min > 0 ? b.min : null;
+  const max = b.max > 0 ? b.max : null;
+  if (!min && !max) return null;
+  const fmt = (n) => n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  if (b.type === 'hourly') {
+    if (min && max) return `$${fmt(min)} – $${fmt(max)} / hr`;
+    if (min) return `$${fmt(min)}+ / hr`;
+    return `Up to $${fmt(max)} / hr`;
+  }
+  if (b.type === 'fixed') {
+    if (min && max && min !== max) return `$${fmt(min)} – $${fmt(max)} fixed`;
+    return `$${fmt(max || min)} fixed`;
+  }
+  if (b.type === 'monthly') {
+    if (min && max) return `$${fmt(min)} – $${fmt(max)} / mo`;
+    return `$${fmt(max || min)} / mo`;
+  }
+  return `$${fmt(max || min)}`;
+}
+
+const titleCase = (s) =>
+  s ? s.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1)) : s;
 
 export default function Landing() {
 
   const [scrolled, setScrolled] = useState(false);
   const [showWaitlist, setShowWaitlist] = useState(false);
+  const [stats, setStats] = useState({ userCount: null, jobCount: null });
+  const [recommendedJobs, setRecommendedJobs] = useState([]);
+  const [loadingJobs, setLoadingJobs] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", handleScroll);
+    // Fetch public stats
+    api.get('/stats')
+      .then(res => {
+        if (res && res.success && res.data) {
+          setStats({ userCount: res.data.userCount, jobCount: res.data.jobCount });
+        }
+      })
+      .catch(() => {});
+    // Fetch recommended jobs (limit 3 so we can show 2 even if one is filtered)
+    setLoadingJobs(true);
+    api.get('/jobs?limit=3&sort=newest')
+      .then(res => {
+        if (res && res.success && res.data && Array.isArray(res.data.jobs)) {
+          setRecommendedJobs(res.data.jobs.slice(0, 2));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoadingJobs(false));
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
@@ -84,7 +140,8 @@ export default function Landing() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-300 md:text-xl">
-            Stop scrolling through endless subreddits. We aggregate, categorize, and match high-quality freelance opportunities from Reddit directly to your skills.
+            Stop scrolling through endless subreddits. We aggregate, categorize, and match freelance opportunities from Reddit directly to your skills.
+            <p className="text-sm italic text-gray-400 mt-2">Built by a developer tired of checking 10 subreddits daily</p>
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -106,13 +163,9 @@ export default function Landing() {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-300">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-violet-500" />
-              AI Job Matching
+              Skill-based job matching
             </div>
 
-            <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-violet-500" />
-              50+ Real Users Signed Up
-            </div>
 
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-violet-500" />
@@ -120,84 +173,139 @@ export default function Landing() {
             </div>
           </div>
         </div>
+{ (stats.userCount !== null && stats.jobCount !== null) && (
+  <div className="mt-4 text-sm text-center text-gray-300">
+    {stats.userCount} freelancers already signed up • {stats.jobCount} jobs aggregated so far
+  </div>
+) }
 
-        {/* Realistic Mockup UI */}
+        {/* Live Job Feed */}
         <div className="mx-auto mt-20 max-w-4xl relative">
           <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-violet-600/30 to-transparent blur-xl opacity-50" />
           <div className="relative rounded-3xl border border-white/10 bg-[#140d26]/80 p-6 shadow-2xl backdrop-blur-2xl">
 
-            {/* Mockup Header */}
+            {/* Header */}
             <div className="mb-8 flex items-center justify-between border-b border-white/5 pb-6">
               <div>
-                <h3 className="text-xl font-bold text-white">Recommended for you</h3>
-                <p className="text-sm text-gray-400">Based on your skills: React, Node.js, Tailwind</p>
+                <h3 className="text-xl font-bold text-white">Live from Reddit</h3>
+                <p className="text-sm text-gray-400">Updated every 5 minutes · 30+ subreddits</p>
               </div>
-              <div className="hidden sm:flex items-center gap-2 rounded-lg bg-white/5 px-3 py-1.5 text-sm font-medium text-gray-300 border border-white/5">
-                <Sparkles className="w-4 h-4 text-violet-400" />
-                98% Match accuracy
-              </div>
+              <span className="flex items-center gap-1.5 rounded-full bg-green-500/10 border border-green-500/20 px-3 py-1 text-xs font-medium text-green-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                Live
+              </span>
             </div>
 
             {/* Job Cards */}
             <div className="space-y-4">
-              {/* Job 1 */}
-              <div className="rounded-2xl border border-white/5 bg-white/5 p-6 hover:bg-white/10 transition-colors cursor-default">
-                <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="rounded-md bg-green-500/20 px-2 py-1 text-xs font-medium text-green-400 border border-green-500/20">
-                        r/forhire
-                      </span>
-                      <span className="text-xs text-gray-400">2 hours ago</span>
+              {loadingJobs ? (
+                // Skeleton placeholders
+                [0, 1].map(i => (
+                  <div key={i} className="rounded-2xl border border-white/5 bg-white/5 p-6 animate-pulse">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
+                      <div className="flex-1 space-y-3">
+                        <div className="flex gap-3">
+                          <div className="h-6 w-20 rounded-md bg-white/10" />
+                          <div className="h-6 w-16 rounded-md bg-white/10" />
+                        </div>
+                        <div className="h-5 w-3/4 rounded bg-white/10" />
+                      </div>
+                      <div className="space-y-2 sm:text-right">
+                        <div className="h-5 w-28 rounded bg-white/10" />
+                        <div className="h-4 w-20 rounded bg-white/10" />
+                      </div>
                     </div>
-                    <h4 className="text-lg font-semibold text-white">[Hiring] Full Stack Next.js & Node Developer for MVP</h4>
+                    <div className="space-y-2 mb-6">
+                      <div className="h-3 w-full rounded bg-white/10" />
+                      <div className="h-3 w-5/6 rounded bg-white/10" />
+                    </div>
+                    <div className="flex gap-2">
+                      {[1, 2, 3].map(j => <div key={j} className="h-6 w-16 rounded-lg bg-white/10" />)}
+                    </div>
                   </div>
-                  <div className="text-left sm:text-right">
-                    <div className="text-lg font-bold text-violet-300">$40 - $60 / hr</div>
-                    <div className="text-sm text-gray-400">Estimated 20-30 hrs/wk</div>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-400 mb-6 line-clamp-2">
-                  We are looking for an experienced full-stack developer to help build out the MVP of our new SaaS platform. Must have strong experience with React, Next.js, Node.js, and PostgreSQL. Familiarity with Tailwind CSS is a huge plus.
-                </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-lg bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 border border-white/10">React</span>
-                  <span className="rounded-lg bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 border border-white/10">Node.js</span>
-                  <span className="rounded-lg bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 border border-white/10">Next.js</span>
-                  <span className="rounded-lg bg-violet-500/20 px-3 py-1 text-xs font-medium text-violet-300 border border-violet-500/20">Tailwind</span>
-                </div>
-              </div>
+                ))
+              ) : recommendedJobs.length > 0 ? (
+                recommendedJobs.map((job, idx) => {
+                  const allTags = [...new Set([...(job.skills || []), ...(job.tags || [])])].slice(0, 4);
+                  const budget = formatBudget(job);
+                  const budgetSub = job.budget?.type === 'hourly' ? 'Hourly contract'
+                    : job.budget?.type === 'fixed' ? 'One-time project'
+                    : job.budget?.type === 'monthly' ? 'Monthly rate'
+                    : null;
+                  const postedAt = job.postedAt || job.createdAt;
+                  const timeAgo = postedAt
+                    ? formatDistanceToNow(new Date(postedAt), { addSuffix: false }) + ' ago'
+                    : null;
+                  const badgeClass = SUBREDDIT_COLORS[idx % SUBREDDIT_COLORS.length];
 
-              {/* Job 2 */}
-              <div className="rounded-2xl border border-white/5 bg-white/5 p-6 hover:bg-white/10 transition-colors cursor-default">
-                <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="rounded-md bg-orange-500/20 px-2 py-1 text-xs font-medium text-orange-400 border border-orange-500/20">
-                        r/freelance_forhire
-                      </span>
-                      <span className="text-xs text-gray-400">5 hours ago</span>
-                    </div>
-                    <h4 className="text-lg font-semibold text-white">[Hiring] Frontend React Developer to revamp our dashboard</h4>
-                  </div>
-                  <div className="text-left sm:text-right">
-                    <div className="text-lg font-bold text-violet-300">$1,500 fixed</div>
-                    <div className="text-sm text-gray-400">One-time project</div>
-                  </div>
+                  return (
+                    <a
+                      key={job._id}
+                      href={job.url || job.redditUrl || '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-2xl border border-white/5 bg-white/5 p-6 hover:bg-white/10 transition-colors"
+                    >
+                      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
+                        <div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className={`rounded-md px-2 py-1 text-xs font-medium border ${badgeClass}`}>
+                              r/{job.subreddit || 'reddit'}
+                            </span>
+                            {timeAgo && (
+                              <span className="text-xs text-gray-400">{timeAgo}</span>
+                            )}
+                          </div>
+                          <h4 className="text-base font-semibold text-white line-clamp-2">{job.title}</h4>
+                        </div>
+                        {(budget || budgetSub) && (
+                          <div className="shrink-0 text-left sm:text-right">
+                            {budget && <div className="text-lg font-bold text-violet-300">{budget}</div>}
+                            {budgetSub && <div className="text-sm text-gray-400">{budgetSub}</div>}
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+                        {job.description || 'No description available.'}
+                      </p>
+                      {allTags.length > 0 && (
+                        <div className="flex flex-wrap items-center gap-2">
+                          {allTags.map((tag, ti) => (
+                            <span
+                              key={ti}
+                              className={`rounded-lg px-3 py-1 text-xs font-medium border ${
+                                ti === allTags.length - 1
+                                  ? 'bg-violet-500/20 text-violet-300 border-violet-500/20'
+                                  : 'bg-white/5 text-gray-300 border-white/10'
+                              }`}
+                            >
+                              {titleCase(tag)}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </a>
+                  );
+                })
+              ) : (
+                // Fallback — API down or no jobs yet
+                <div className="rounded-2xl border border-white/5 bg-white/5 p-8 text-center text-gray-400 text-sm">
+                  Jobs are being aggregated. Check back in a moment.
                 </div>
-                <p className="text-sm text-gray-400 mb-6 line-clamp-2">
-                  Seeking a frontend specialist to redesign and implement a new UI for our analytics dashboard. We have the Figma files ready. You will be responsible for bringing them to life using React and Tailwind.
-                </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-lg bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 border border-white/10">React</span>
-                  <span className="rounded-lg bg-violet-500/20 px-3 py-1 text-xs font-medium text-violet-300 border border-violet-500/20">Tailwind CSS</span>
-                  <span className="rounded-lg bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 border border-white/10">Figma</span>
-                </div>
-              </div>
+              )}
             </div>
 
-            {/* Fade out bottom */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#140d26] to-transparent rounded-b-3xl pointer-events-none" />
+            {/* Fade out bottom + View All CTA */}
+            <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#140d26] to-transparent rounded-b-3xl pointer-events-none" />
+            <div className="mt-6 text-center relative z-10">
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-5 py-2.5 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-all"
+              >
+                View all jobs — it's free
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -250,8 +358,7 @@ export default function Landing() {
                   "Everything in Free",
                   "Instant email alerts when matching job is posted",
                   "Priority job feed (newest first, no delay)",
-                  "AI job quality score",
-                  "Resume-based auto skill detection"
+"Resume parsing for skill extraction",
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm font-medium text-gray-300">
                     <CheckCircle2 className="h-5 w-5 text-violet-500 shrink-0" />
