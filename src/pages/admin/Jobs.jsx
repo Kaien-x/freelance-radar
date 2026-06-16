@@ -125,13 +125,12 @@ export default function AdminJobs() {
                 </td>
 
                 <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-gray-200">
-                  {job.createdAt
-                    ? new Date(job.createdAt).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })
-                    : "-"}
+                  {job.createdAt ? (
+                    <>
+                      <p>{new Date(job.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{new Date(job.createdAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</p>
+                    </>
+                  ) : "-"}
                 </td>
 
                 <td className="px-4 md:px-6 py-4">
