@@ -141,7 +141,7 @@ export default function Landing() {
 
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-300 md:text-xl">
             Stop scrolling through endless subreddits. We aggregate, categorize, and match freelance opportunities from Reddit directly to your skills.
-            <p className="text-sm italic text-gray-400 mt-2">Built by a developer tired of checking 10 subreddits daily</p>
+            <p className="text-sm italic text-gray-400 mt-2">Built by a freelancer tired of scrolling r/forhire</p>
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -326,7 +326,6 @@ export default function Landing() {
                   "All Reddit freelance jobs in one feed",
                   "Skill-based job matching",
                   "Category filters and search",
-                  "Daily email digest",
                   "Save and track jobs"
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm font-medium text-gray-300">
