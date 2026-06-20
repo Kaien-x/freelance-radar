@@ -7,6 +7,7 @@ import {
 import { Camera, Upload, X, Plus, Trash2, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '../../store/authStore';
+import useTrackPage from '../../hooks/useTrackPage';
 
 const cardClass = 'bg-[#1a0f2e] rounded-2xl border border-[#2d1f4e] p-5 md:p-7';
 const sectionTitle = 'text-lg font-semibold text-white mb-6';
@@ -17,6 +18,7 @@ const selectClass =
   'w-full px-3 py-2 rounded-lg bg-[#12072a] border border-[#2d1f4e] text-white focus:outline-none focus:ring-2 focus:ring-[#7c3aed]/50';
 
 export default function Profile() {
+  useTrackPage('profile');
   const queryClient = useQueryClient();
   const [avatarFile, setAvatarFile] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);

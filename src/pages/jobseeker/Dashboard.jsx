@@ -7,10 +7,11 @@ import { getJobsAPI } from '../../api/jobs.api';
 import { getMyApplicationsAPI } from '../../api/applications.api';
 import { JobCardSkeleton } from '../../components/ui/skeleton';
 import JobCard from '../../components/shared/JobCard';
-
 import JobDetailsModal from '../../components/jobs/JobDetailsModal';
+import useTrackPage from '../../hooks/useTrackPage';
 
 export default function SeekerDashboard() {
+  useTrackPage('dashboard');
   const { user } = useAuthStore();
   const [jobs, setJobs] = useState([]);
   const [totalMatch, setTotalMatch] = useState(0);

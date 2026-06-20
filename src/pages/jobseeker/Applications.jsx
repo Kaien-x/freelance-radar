@@ -4,6 +4,7 @@ import { getMyApplicationsAPI, withdrawApplicationAPI } from '../../api/applicat
 import { format } from 'date-fns';
 import { Briefcase, Calendar, DollarSign, X, FileText } from 'lucide-react';
 import toast from 'react-hot-toast';
+import useTrackPage from '../../hooks/useTrackPage';
 
 const statusColors = {
   pending:     'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
@@ -22,6 +23,7 @@ const statusLabels = {
 };
 
 export default function Applications() {
+  useTrackPage('applications');
   const [filter, setFilter] = useState('all');
   const queryClient = useQueryClient();
 

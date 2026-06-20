@@ -7,11 +7,13 @@ import { getJobsAPI, getCategoriesAPI } from '../../api/jobs.api';
 import { JobCardSkeleton } from '../../components/ui/skeleton';
 import { Search, Filter, Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import useTrackPage from '../../hooks/useTrackPage';
 
 const darkInputClass =
   'w-full h-12 md:h-14 px-4 rounded-xl bg-[#12072a] border border-[#2d1f4e] text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7c3aed]/50 transition-all';
 
 export default function JobFeed() {
+  useTrackPage('jobs');
   const [search, setSearch] = useState('');
   const [skills, setSkills] = useState('');
   const [category, setCategory] = useState('');

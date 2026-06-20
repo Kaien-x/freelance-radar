@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   X,
   Mail,
+  Activity,
 } from 'lucide-react';
 
 const navConfig = {
@@ -26,11 +27,12 @@ const navConfig = {
     { to: '/poster/my-jobs', icon: List, label: 'My Jobs' },
   ],
   admin: [
-    { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { to: '/admin/users', icon: Users, label: 'Users' },
-    { to: '/admin/waitlist', icon: Mail, label: 'Waitlist' },
-    { to: '/admin/jobs', icon: Briefcase, label: 'Jobs' },
-    { to: '/admin/emails', icon: Mail, label: 'Emails' },
+    { to: '/admin/dashboard',  icon: LayoutDashboard, label: 'Dashboard' },
+    { to: '/admin/users',      icon: Users,           label: 'Users' },
+    { to: '/admin/activity',   icon: Activity,        label: 'Activity' },
+    { to: '/admin/waitlist',   icon: Mail,            label: 'Waitlist' },
+    { to: '/admin/jobs',       icon: Briefcase,       label: 'Jobs' },
+    { to: '/admin/emails',     icon: Mail,            label: 'Emails' },
   ],
 };
 

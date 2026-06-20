@@ -27,6 +27,7 @@ import AdminUsers from './pages/admin/Users'
 import AdminJobs from './pages/admin/Jobs'
 import AdminEmails from './pages/admin/Emails'
 import AdminWaitlist from './pages/admin/Waitlist'
+import AdminActivity from './pages/admin/Activity'
 import './index.css'
 
 const queryClient = new QueryClient()
@@ -82,6 +83,7 @@ export default function App() {
           <Route path="/admin/jobs"      element={<PrivateRoute roles={['admin']}><AppLayout><AdminJobs /></AppLayout></PrivateRoute>} />
           <Route path="/admin/emails"    element={<PrivateRoute roles={['admin']}><AppLayout><AdminEmails /></AppLayout></PrivateRoute>} />
           <Route path="/admin/waitlist"  element={<PrivateRoute roles={['admin']}><AppLayout><AdminWaitlist /></AppLayout></PrivateRoute>} />
+          <Route path="/admin/activity" element={<PrivateRoute roles={['admin']}><AppLayout><AdminActivity /></AppLayout></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" />
