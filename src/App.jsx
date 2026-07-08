@@ -17,6 +17,7 @@ import Profile from './pages/jobseeker/Profile'
 import Resume from './pages/jobseeker/Resume'
 import Applications from './pages/jobseeker/Applications'
 import Proposals from './pages/jobseeker/Proposals'
+import SettingsPage from './pages/Settings'
 import PosterDashboard from './pages/jobposter/Dashboard'
 import CreateJob from './pages/jobposter/CreateJob'
 import MyJobs from './pages/jobposter/MyJobs'
@@ -69,6 +70,7 @@ export default function App() {
           <Route path="/resume"       element={<PrivateRoute roles={['jobseeker']}><AppLayout><Resume /></AppLayout></PrivateRoute>} />
           <Route path="/applications" element={<PrivateRoute roles={['jobseeker']}><AppLayout><Applications /></AppLayout></PrivateRoute>} />
           <Route path="/proposals"    element={<PrivateRoute roles={['jobseeker']}><AppLayout><Proposals /></AppLayout></PrivateRoute>} />
+          <Route path="/settings"     element={<PrivateRoute roles={['jobseeker']}><AppLayout><SettingsPage /></AppLayout></PrivateRoute>} />
 
           {/* Job Poster */}
           <Route path="/poster/dashboard"         element={<PrivateRoute roles={['jobposter']}><AppLayout><PosterDashboard /></AppLayout></PrivateRoute>} />

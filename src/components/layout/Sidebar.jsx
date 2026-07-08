@@ -13,6 +13,7 @@ import {
   X,
   Mail,
   Activity,
+  Settings as SettingsIcon,
 } from 'lucide-react';
 
 const navConfig = {
@@ -20,6 +21,7 @@ const navConfig = {
     { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/jobs', icon: Briefcase, label: 'Browse Jobs' },
     { to: '/profile', icon: User, label: 'Profile' },
+    { to: '/settings', icon: SettingsIcon, label: 'Settings' },
   ],
   jobposter: [
     { to: '/poster/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
