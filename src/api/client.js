@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseFromEnv = import.meta.env.VITE_API_URL || 'http://43.205.113.12:8008';
+const baseFromEnv = import.meta.env.VITE_API_URL || 'https://freelance-radar-backend-xbml.onrender.com';
 // Ensure we end with a single '/api' segment. If VITE_API_URL already includes '/api', strip it first.
 const baseURL = baseFromEnv.replace(/\/api\/?$/,'').replace(/\/$/, '') + '/api';
 
